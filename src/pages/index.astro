@@ -1,0 +1,303 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import BlogGrid from '../components/BlogGrid.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { blogPosts } from '../data/blogs';
+import { siteConfig } from '../data/siteConfig';
+
+// Featured subset of posts for the homepage
+const featuredPosts = blogPosts.slice(0, 3);
+---
+
+<Layout
+  title={`${siteConfig.projectName} — ${siteConfig.tagline}`}
+  description={siteConfig.description}
+>
+  <!-- Hero Section -->
+  <Hero />
+
+  <!-- Core Architectural Workflow -->
+  <section class="workflow-section section-spacing bg-subtle-band">
+    <div class="container">
+      <SectionTitle
+        badge="Pedagogical Architecture"
+        title="From Passive Theory to Visceral Experience"
+        description="The RIXA framework orchestrates a 4-stage cognitive loop powered by AI, spatial AR, and cryptographic verification."
+      />
+
+      <div class="workflow-grid">
+        <div class="workflow-card motion-reveal">
+          <div class="step-num">01</div>
+          <div class="step-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+              <path d="M6 6h10"/>
+              <path d="M6 10h10"/>
+            </svg>
+          </div>
+          <h3 class="step-title">Learn</h3>
+          <p class="step-desc">
+            Staff select the academic topic. The AI Content Engine synthesizes certified pedagogical narratives and diagnostic checkpoints.
+          </p>
+        </div>
+
+        <div class="workflow-card motion-reveal">
+          <div class="step-num">02</div>
+          <div class="step-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="m4.93 4.93 4.24 4.24"/>
+              <path d="m14.83 9.17 4.24-4.24"/>
+              <path d="m14.83 14.83 4.24 4.24"/>
+              <path d="m9.17 14.83-4.24 4.24"/>
+            </svg>
+          </div>
+          <h3 class="step-title">Explore</h3>
+          <p class="step-desc">
+            Scanning an instant QR code opens an interactive WebXR portal on any standard smartphone, projecting 3D spatial models.
+          </p>
+        </div>
+
+        <div class="workflow-card motion-reveal">
+          <div class="step-num">03</div>
+          <div class="step-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m18 15-6-6-6 6"/>
+            </svg>
+          </div>
+          <h3 class="step-title">Interact</h3>
+          <p class="step-desc">
+            Students physically manipulate variables—rotating molecular fields, altering electrical flow, and testing physical constraints.
+          </p>
+        </div>
+
+        <div class="workflow-card motion-reveal">
+          <div class="step-num">04</div>
+          <div class="step-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+          <h3 class="step-title">Solve & Verify</h3>
+          <p class="step-desc">
+            Learners solve dynamic tasks evaluated by AI. Demonstrated competence is attested via decentralized Soulbound credentials.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Blog Articles -->
+  <section class="articles-section section-spacing">
+    <div class="container">
+      <div class="section-top-row">
+        <SectionTitle
+          badge="Curated Editorial"
+          title="Featured Research & Insights"
+          description="Detailed teardowns from our engineering and protocol design teams."
+          align="left"
+        />
+        <a href="/blog" class="btn btn-secondary view-all-link">
+          <span>View All 5 Articles</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <BlogGrid posts={featuredPosts} showFilter={false} />
+    </div>
+  </section>
+
+  <!-- Technical Value Pillars -->
+  <section class="pillars-section section-spacing bg-subtle-band">
+    <div class="container">
+      <SectionTitle
+        badge="Why Web3 & Spatial Tech"
+        title="Engineered for Autonomy, Scale, and Privacy"
+        description="Combining Google's ease-of-use with Apple's refined design and decentralized cryptography."
+      />
+
+      <div class="pillars-grid">
+        <div class="pillar-card motion-reveal">
+          <div class="pillar-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="18" height="18" x="3" y="3" rx="2"/>
+              <path d="M7 7h10"/>
+              <path d="M7 12h10"/>
+              <path d="M7 17h10"/>
+            </svg>
+          </div>
+          <h4>Zero Specialized Hardware</h4>
+          <p>Operates on standard Android and iOS smartphones via browser-native WebXR, avoiding $1,000+ headset barriers.</p>
+        </div>
+
+        <div class="pillar-card motion-reveal">
+          <div class="pillar-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <h4>Soulbound Knowledge (SBTs)</h4>
+          <p>Non-transferable on-chain proof-of-competence guarantees students truly own their verified academic transcripts forever.</p>
+        </div>
+
+        <div class="pillar-card motion-reveal">
+          <div class="pillar-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <h4>Privacy-Preserving Telemetry</h4>
+          <p>Zero-knowledge rollups aggregate student progress states to pinpoint curriculum blind spots without invasive surveillance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <div class="container">
+    <Newsletter />
+  </div>
+</Layout>
+
+<style>
+  .bg-subtle-band {
+    background: #f8fafc;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .workflow-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.75rem;
+  }
+
+  .workflow-card {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 2.25rem 1.75rem;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+  }
+
+  .workflow-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(79, 70, 229, 0.25);
+  }
+
+  .step-num {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-subtle);
+  }
+
+  .step-icon-wrap {
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-md);
+    background: var(--accent-primary-light);
+    color: var(--accent-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .step-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .step-desc {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .section-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.5rem;
+  }
+
+  .view-all-link {
+    margin-bottom: 3.5rem;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .pillar-card {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 2.25rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .pillar-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--accent-secondary-light);
+    color: var(--accent-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .pillar-card h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.65rem;
+    color: var(--text-primary);
+  }
+
+  .pillar-card p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 960px) {
+    .workflow-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .pillars-grid {
+      grid-template-columns: 1fr;
+    }
+    .section-top-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .view-all-link {
+      margin-bottom: 2rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .workflow-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

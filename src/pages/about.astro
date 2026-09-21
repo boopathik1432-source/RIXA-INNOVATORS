@@ -1,0 +1,233 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import TeamCard from '../components/TeamCard.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { teamMembers } from '../data/team';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<Layout
+  title={`About Our Team — ${siteConfig.teamName}`}
+  description={`Meet the engineers, spatial designers, and protocol researchers behind ${siteConfig.projectName}.`}
+>
+  <!-- About Hero -->
+  <section class="about-hero section-spacing">
+    <div class="container">
+      <div class="about-header-wrap">
+        <span class="badge motion-reveal">
+          <span class="badge-dot"></span>
+          {siteConfig.teamName}
+        </span>
+        <h1 class="about-title motion-reveal">
+          Building the Verifiable Infrastructure for <span class="gradient-text">Experiential Learning</span>.
+        </h1>
+        <p class="about-lead motion-reveal">
+          {siteConfig.teamName} is an applied research collective building <strong>{siteConfig.projectName}</strong>. We believe the future of education lies in transforming abstract formulas into tangible spatial models anchored by immutable, sovereign credential networks.
+        </p>
+      </div>
+
+      <div class="mission-banner motion-reveal">
+        <div class="mission-tag">Core Mission</div>
+        <blockquote class="mission-quote">
+          "{siteConfig.mission}"
+        </blockquote>
+        <div class="mission-sub">
+          Smart Education • WebXR Spatial Interaction • Soulbound Attestations
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meet the Team Section -->
+  <section class="team-section section-spacing bg-subtle-band">
+    <div class="container">
+      <SectionTitle
+        badge="Collective Brainpower"
+        title="Meet the Team"
+        description={`The multidisciplinary minds driving ${siteConfig.projectName}'s engineering, pedagogical science, and cryptographic protocols.`}
+      />
+
+      <div class="team-grid">
+        {teamMembers.map((member) => (
+          <TeamCard member={member} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Research Principles -->
+  <section class="values-section section-spacing">
+    <div class="container">
+      <SectionTitle
+        badge="Foundational Tenets"
+        title="Our Engineering & Design Principles"
+        description="Every protocol, interface, and model we design conforms to four rigorous standards."
+      />
+
+      <div class="principles-grid">
+        <div class="principle-box motion-reveal">
+          <span class="principle-number">01</span>
+          <h4>Frictionless Accessibility</h4>
+          <p>We reject gatekeeping hardware. Spatial computing must run natively on affordable smartphones via standard browser engines without app store dependencies.</p>
+        </div>
+
+        <div class="principle-box motion-reveal">
+          <span class="principle-number">02</span>
+          <h4>Cognitive Empathy</h4>
+          <p>Educational technology should reduce extraneous cognitive load. We design UI inspired by Apple's restraint and Google's clear typographic hierarchy.</p>
+        </div>
+
+        <div class="principle-box motion-reveal">
+          <span class="principle-number">03</span>
+          <h4>Cryptographic Sovereignty</h4>
+          <p>Students must own their learning achievements forever. We employ non-transferable Soulbound tokens (SBTs) that eliminate academic forgery permanently.</p>
+        </div>
+
+        <div class="principle-box motion-reveal">
+          <span class="principle-number">04</span>
+          <h4>Privacy-Preserving Telemetry</h4>
+          <p>We monitor curriculum efficacy, not student surveillance dossiers. Zero-knowledge cryptographic rollups ensure diagnostic insights protect learner privacy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <Newsletter />
+  </div>
+</Layout>
+
+<style>
+  .about-hero {
+    padding-top: 4.5rem;
+    padding-bottom: 3.5rem;
+    text-align: center;
+  }
+
+  .about-header-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .about-title {
+    font-size: clamp(2.5rem, 4.5vw, 3.75rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+
+  .gradient-text {
+    background: var(--grad-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .about-lead {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .mission-banner {
+    margin-top: 3.5rem;
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 3rem 2.5rem;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .mission-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+
+  .mission-quote {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+
+  .mission-sub {
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+  }
+
+  .bg-subtle-band {
+    background: #f8fafc;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .principle-box {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+  }
+
+  .principle-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+    opacity: 0.4;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .principle-box h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .principle-box p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  @media (max-width: 860px) {
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+    .principles-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

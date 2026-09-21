@@ -1,0 +1,333 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<Layout
+  title={`Contact & Inquiries — ${siteConfig.projectName}`}
+  description={`Connect with the ${siteConfig.teamName} research and engineering collective.`}
+>
+  <div class="contact-page section-spacing">
+    <div class="container">
+      <SectionTitle
+        badge="Direct Communications"
+        title="Get in Touch"
+        description="Have questions about our AI content synthesis pipelines, smartphone WebXR prototypes, or decentralized credential protocols? We welcome technical collaboration."
+      />
+
+      <div class="contact-layout">
+        <!-- Contact Information Column -->
+        <div class="contact-info-col motion-reveal">
+          <div class="info-card">
+            <h3>Direct Channels</h3>
+            <p class="info-intro">
+              Reach out to our core team for academic partnerships, speaking engagements, or engineering inquiries.
+            </p>
+
+            <div class="channel-list">
+              <div class="channel-item">
+                <div class="channel-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                  </svg>
+                </div>
+                <div class="channel-details">
+                  <span class="channel-lbl">Direct Email</span>
+                  <a href={`mailto:${siteConfig.email}`} class="channel-val">{siteConfig.email}</a>
+                </div>
+              </div>
+
+              <div class="channel-item">
+                <div class="channel-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                  </svg>
+                </div>
+                <div class="channel-details">
+                  <span class="channel-lbl">Open Source</span>
+                  <a href={siteConfig.github} target="_blank" rel="noopener noreferrer" class="channel-val">github.com/RIXA-INNOVATORS</a>
+                </div>
+              </div>
+
+              <div class="channel-item">
+                <div class="channel-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+                  </svg>
+                </div>
+                <div class="channel-details">
+                  <span class="channel-lbl">Community & Updates</span>
+                  <a href={siteConfig.twitter} target="_blank" rel="noopener noreferrer" class="channel-val">@rixa_innovators</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="team-meta-badge">
+              <span class="badge-dot"></span>
+              <span>Collective: {siteConfig.teamName}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form Column -->
+        <div class="contact-form-col motion-reveal">
+          <form class="contact-form" id="contact-form" onsubmit="event.preventDefault(); document.getElementById('form-feedback').style.display = 'block'; this.style.display = 'none';">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Your Name <span class="required">*</span></label>
+                <input type="text" id="name" name="name" required placeholder="Alex Morgan" />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required placeholder="alex@university.edu" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="organization">Organization / Institution</label>
+                <input type="text" id="organization" name="organization" placeholder="MIT Media Lab / Department of CS" />
+              </div>
+
+              <div class="form-group">
+                <label for="topic">Topic of Interest</label>
+                <select id="topic" name="topic">
+                  <option value="ai-engine">AI Content & Quiz Engine</option>
+                  <option value="webxr-ar">Smartphone WebXR & AR</option>
+                  <option value="web3-credentials">Web3 Soulbound Credentials</option>
+                  <option value="analytics">Learning-Gap Analytics</option>
+                  <option value="other">General Technical Inquiry</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Your Message <span class="required">*</span></label>
+              <textarea id="message" name="message" rows="5" required placeholder="Describe your technical inquiry, pilot interest, or research question..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-submit">
+              <span>Send Message</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </form>
+
+          <div id="form-feedback" class="form-feedback-card" style="display: none;">
+            <div class="success-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-emerald)" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <h3>Message Transmitted</h3>
+            <p>Thank you for reaching out. A representative from the {siteConfig.teamName} research collective will respond to your inquiry shortly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .contact-page {
+    padding-top: 4.5rem;
+    padding-bottom: 5.5rem;
+  }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 3.5rem;
+    margin-top: 1rem;
+  }
+
+  .info-card {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 3rem 2.25rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .info-card h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+
+  .info-intro {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .channel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .channel-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .channel-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--accent-primary-light);
+    color: var(--accent-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .channel-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .channel-lbl {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+  }
+
+  .channel-val {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .channel-val:hover {
+    color: var(--accent-primary);
+  }
+
+  .team-meta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 0.5rem 0.85rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-full);
+    width: fit-content;
+  }
+
+  /* Contact Form */
+  .contact-form {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 3rem 2.5rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .required {
+    color: #ef4444;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    background: #ffffff;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+  }
+
+  .btn-submit {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+  }
+
+  .form-feedback-card {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 4rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .success-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--accent-emerald-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+  }
+
+  .form-feedback-card h3 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+  }
+
+  .form-feedback-card p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 880px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+    }
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

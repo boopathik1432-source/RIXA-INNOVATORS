@@ -1,0 +1,538 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { blogPosts, type BlogPost } from '../../data/blogs';
+import { siteConfig } from '../../data/siteConfig';
+
+export async function getStaticPaths() {
+  return blogPosts.map((post, index) => {
+    const prevPost = index > 0 ? blogPosts[index - 1] : null;
+    const nextPost = index < blogPosts.length - 1 ? blogPosts[index + 1] : null;
+    const related = blogPosts.filter(p => post.relatedSlugs.includes(p.slug));
+
+    return {
+      params: { slug: post.slug },
+      props: { post, prevPost, nextPost, related }
+    };
+  });
+}
+
+interface Props {
+  post: BlogPost;
+  prevPost: BlogPost | null;
+  nextPost: BlogPost | null;
+  related: BlogPost[];
+}
+
+const { post, prevPost, nextPost, related } = Astro.props;
+
+// Simple markdown-to-HTML parser for editorial sections
+function formatContent(rawContent: string) {
+  let html = rawContent
+    // Blockquotes
+    .replace(/^>\s*(.+)$/gm, '<blockquote><p>$1</p></blockquote>')
+    // Headings
+    .replace(/^###\s*(.+)$/gm, '<h3>$1</h3>')
+    .replace(/^##\s*(.+)$/gm, '<h2>$1</h2>')
+    // Code blocks
+    .replace(/```([a-z]*)\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
+    // Inline code
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    // Bold
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    // Italic
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    // Unordered lists
+    .replace(/^\*\s*(.+)$/gm, '<li>$1</li>')
+    // Ordered lists
+    .replace(/^\d+\.\s*(.+)$/gm, '<li>$1</li>')
+    // Paragraphs
+    .split('\n\n')
+    .map(chunk => {
+      const trimmed = chunk.trim();
+      if (!trimmed) return '';
+      if (
+        trimmed.startsWith('<h2>') ||
+        trimmed.startsWith('<h3>') ||
+        trimmed.startsWith('<blockquote>') ||
+        trimmed.startsWith('<pre>') ||
+        trimmed.startsWith('<li>')
+      ) {
+        if (trimmed.startsWith('<li>')) {
+          return `<ul>${trimmed}</ul>`;
+        }
+        return trimmed;
+      }
+      return `<p>${trimmed}</p>`;
+    })
+    .join('\n');
+
+  return html;
+}
+
+const renderedArticleHtml = formatContent(post.content);
+---
+
+<Layout
+  title={`${post.title} — ${siteConfig.projectName}`}
+  description={post.shortDescription}
+  image={post.featuredImage}
+  article={{
+    publishedTime: post.publishedAt,
+    author: post.author.name,
+    tags: [post.category, post.numberPrefix]
+  }}
+>
+  <article class="article-page">
+    <!-- Article Header & Meta -->
+    <header class="article-header">
+      <div class="reading-container">
+        <!-- 1. Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li><span class="sep">/</span></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><span class="sep">/</span></li>
+            <li aria-current="page">{post.numberPrefix}</li>
+          </ol>
+        </nav>
+
+        <!-- 2. Category & Tag -->
+        <div class="article-tags-top">
+          <span class="category-pill">{post.category}</span>
+          <span class="number-tag">{post.numberPrefix}</span>
+        </div>
+
+        <!-- 3. Blog Title -->
+        <h1 class="article-title">{post.title}</h1>
+
+        <!-- 4. Short Introduction -->
+        <p class="article-lead">{post.shortDescription}</p>
+
+        <!-- 5, 6, 7. Author, Date, Reading Time -->
+        <div class="author-meta-box">
+          <img
+            src={post.author.avatar}
+            alt={post.author.name}
+            class="author-avatar-lg"
+          />
+          <div class="author-meta-info">
+            <div class="author-name-row">
+              <span class="author-name">{post.author.name}</span>
+              <span class="author-badge">Author</span>
+            </div>
+            <div class="author-sub-row">
+              <span>{post.author.role}</span>
+              <span class="dot-sep">•</span>
+              <span>{post.publishedAt}</span>
+              <span class="dot-sep">•</span>
+              <span>{post.readingTime}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 8. Featured Image -->
+    <div class="container article-hero-media">
+      <figure class="featured-figure">
+        <img
+          src={post.featuredImage}
+          alt={post.title}
+          class="featured-img"
+        />
+        <figcaption class="featured-caption">
+          Figure 1.0: Architectural visualization for {post.title}.
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 9. Article Content (Strict 650px - 760px Width) -->
+    <div class="reading-container article-body">
+      <div class="editorial-prose" set:html={renderedArticleHtml} />
+    </div>
+
+    <!-- 11. Previous / Next Article Navigation -->
+    <div class="reading-container prev-next-container">
+      <nav class="prev-next-nav" aria-label="Previous and Next Articles">
+        {prevPost ? (
+          <a href={`/blog/${prevPost.slug}`} class="prev-next-card prev">
+            <div class="pn-direction">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span>Previous Article</span>
+            </div>
+            <div class="pn-title">{prevPost.title}</div>
+          </a>
+        ) : (
+          <div class="prev-next-spacer"></div>
+        )}
+
+        {nextPost ? (
+          <a href={`/blog/${nextPost.slug}`} class="prev-next-card next">
+            <div class="pn-direction">
+              <span>Next Article</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </div>
+            <div class="pn-title">{nextPost.title}</div>
+          </a>
+        ) : (
+          <div class="prev-next-spacer"></div>
+        )}
+      </nav>
+    </div>
+
+    <!-- 10. Related Articles Section -->
+    {related.length > 0 && (
+      <section class="related-section bg-subtle-band section-spacing">
+        <div class="container">
+          <h2 class="related-heading">Related Research & Articles</h2>
+          <div class="related-grid">
+            {related.map(relPost => (
+              <BlogCard post={relPost} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </article>
+</Layout>
+
+<style>
+  .article-page {
+    padding-top: 3.5rem;
+    padding-bottom: 5rem;
+  }
+
+  .breadcrumb ol {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .breadcrumb a {
+    color: var(--text-muted);
+  }
+
+  .breadcrumb a:hover {
+    color: var(--accent-primary);
+  }
+
+  .breadcrumb .sep {
+    color: var(--border-medium);
+  }
+
+  .article-tags-top {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .category-pill {
+    background: var(--accent-primary-light);
+    color: var(--accent-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.85rem;
+    border-radius: var(--radius-full);
+  }
+
+  .number-tag {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-full);
+  }
+
+  .article-title {
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.18;
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+    margin-bottom: 1.25rem;
+  }
+
+  .article-lead {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .author-meta-box {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 3rem;
+  }
+
+  .author-avatar-lg {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ffffff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .author-meta-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .author-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .author-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .author-badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .author-sub-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+  }
+
+  .dot-sep {
+    color: var(--border-medium);
+  }
+
+  /* Featured Image */
+  .article-hero-media {
+    margin-bottom: 3.5rem;
+  }
+
+  .featured-figure {
+    width: 100%;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-md);
+  }
+
+  .featured-img {
+    width: 100%;
+    max-height: 520px;
+    object-fit: cover;
+  }
+
+  .featured-caption {
+    padding: 0.85rem 1.5rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    background: #ffffff;
+    border-top: 1px solid var(--border-light);
+  }
+
+  /* Long-form Readability Prose (650px - 760px) */
+  .article-body {
+    margin-bottom: 4.5rem;
+  }
+
+  .editorial-prose {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+  }
+
+  .editorial-prose h2 {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-top: 2.75rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+  }
+
+  .editorial-prose h3 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: 2.25rem;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  .editorial-prose p {
+    margin-bottom: 1.65rem;
+  }
+
+  .editorial-prose blockquote {
+    margin: 2.5rem 0;
+    padding: 1.5rem 2rem;
+    background: var(--bg-secondary);
+    border-left: 4px solid var(--accent-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-style: italic;
+    color: var(--text-primary);
+    font-size: 1.15rem;
+    line-height: 1.65;
+  }
+
+  .editorial-prose pre {
+    background: #09090b;
+    color: #f8fafc;
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin: 2rem 0;
+    border: 1px solid #27272a;
+  }
+
+  .editorial-prose code {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .editorial-prose p code {
+    background: var(--bg-tertiary);
+    color: var(--accent-primary);
+    padding: 0.2rem 0.45rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+  }
+
+  .editorial-prose ul, .editorial-prose ol {
+    margin: 1.5rem 0 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .editorial-prose li {
+    line-height: 1.65;
+  }
+
+  /* Prev / Next Article Nav */
+  .prev-next-container {
+    margin-bottom: 5rem;
+  }
+
+  .prev-next-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .prev-next-card {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .prev-next-card:hover {
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .pn-direction {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-primary);
+  }
+
+  .prev-next-card.next .pn-direction {
+    justify-content: flex-end;
+  }
+
+  .prev-next-card.next .pn-title {
+    text-align: right;
+  }
+
+  .pn-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .prev-next-spacer {
+    visibility: hidden;
+  }
+
+  /* Related Section */
+  .bg-subtle-band {
+    background: #f8fafc;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .related-heading {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .prev-next-nav {
+      grid-template-columns: 1fr;
+    }
+    .prev-next-card.next .pn-direction {
+      justify-content: flex-start;
+    }
+    .prev-next-card.next .pn-title {
+      text-align: left;
+    }
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

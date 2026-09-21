@@ -1,0 +1,37 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SectionTitle from '../../components/SectionTitle.astro';
+import BlogGrid from '../../components/BlogGrid.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import { blogPosts } from '../../data/blogs';
+import { siteConfig } from '../../data/siteConfig';
+---
+
+<Layout
+  title={`Latest Articles & Research — ${siteConfig.projectName}`}
+  description="Explore technical teardowns, spatial computing insights, and decentralized learning architecture from RIXA Innovators."
+>
+  <div class="blog-listing-header section-spacing">
+    <div class="container">
+      <SectionTitle
+        badge="Technical Publication"
+        title="Latest Articles"
+        description="Rigorous editorial writing and open-source architectural patterns at the intersection of AI curriculum generation, smartphone WebXR, and decentralized knowledge networks."
+      />
+      
+      <!-- Interactive Blog Grid with Live Category Filters -->
+      <BlogGrid posts={blogPosts} showFilter={true} />
+    </div>
+  </div>
+
+  <div class="container">
+    <Newsletter />
+  </div>
+</Layout>
+
+<style>
+  .blog-listing-header {
+    padding-top: 4.5rem;
+    padding-bottom: 5rem;
+  }
+</style>

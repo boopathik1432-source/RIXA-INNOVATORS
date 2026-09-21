@@ -1,0 +1,266 @@
+---
+import type { BlogPost } from '../data/blogs';
+
+interface Props {
+  post: BlogPost;
+  featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+---
+
+<article class:list={['blog-card', 'motion-reveal', { 'card-featured': featured }]}>
+  <a href={`/blog/${post.slug}`} class="card-image-wrapper" tabindex="-1" aria-hidden="true">
+    <img
+      src={post.featuredImage}
+      alt={post.title}
+      loading="lazy"
+      class="card-image"
+    />
+    <div class="card-badges">
+      <span class="category-pill">{post.category}</span>
+      <span class="number-tag">{post.numberPrefix}</span>
+    </div>
+  </a>
+
+  <div class="card-content">
+    <div class="card-meta-top">
+      <span class="meta-date">{post.publishedAt}</span>
+      <span class="meta-divider">•</span>
+      <span class="meta-reading">{post.readingTime}</span>
+    </div>
+
+    <h3 class="card-title">
+      <a href={`/blog/${post.slug}`} class="title-link">
+        {post.title}
+      </a>
+    </h3>
+
+    <p class="card-description">
+      {post.shortDescription}
+    </p>
+
+    <div class="card-footer">
+      <div class="author-info">
+        <img
+          src={post.author.avatar}
+          alt={post.author.name}
+          class="author-avatar"
+        />
+        <div class="author-details">
+          <span class="author-name">{post.author.name}</span>
+          <span class="author-role">{post.author.role}</span>
+        </div>
+      </div>
+
+      <a href={`/blog/${post.slug}`} class="read-btn" aria-label={`Read article: ${post.title}`}>
+        <span>Read Article</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .blog-card {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(79, 70, 229, 0.3);
+  }
+
+  .card-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--bg-tertiary);
+  }
+
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .blog-card:hover .card-image {
+    transform: scale(1.04);
+  }
+
+  .card-badges {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  .category-pill {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--accent-primary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: var(--shadow-xs);
+  }
+
+  .number-tag {
+    background: rgba(9, 9, 11, 0.85);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+  }
+
+  .card-content {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .card-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .meta-divider {
+    color: var(--border-medium);
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .title-link {
+    color: inherit;
+    transition: color 0.2s ease;
+  }
+
+  .title-link:hover {
+    color: var(--accent-primary);
+  }
+
+  .card-description {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-light);
+    gap: 1rem;
+  }
+
+  .author-info {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .author-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--border-subtle);
+  }
+
+  .author-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .author-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .author-role {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .read-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    transition: all 0.2s ease;
+  }
+
+  .read-btn:hover {
+    color: var(--accent-primary-hover);
+    transform: translateX(3px);
+  }
+
+  @media (min-width: 900px) {
+    .card-featured {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+    }
+    .card-featured .card-image-wrapper {
+      height: 100%;
+      aspect-ratio: auto;
+    }
+    .card-featured .card-content {
+      padding: 2.5rem;
+    }
+    .card-featured .card-title {
+      font-size: 1.65rem;
+    }
+  }
+</style>
