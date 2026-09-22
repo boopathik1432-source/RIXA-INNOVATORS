@@ -1,6 +1,7 @@
 export interface SiteConfig {
   projectName: string;
   teamName: string;
+  teamSize: number;
   tagline: string;
   domain: string;
   description: string;
@@ -13,7 +14,8 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   projectName: 'RIXA Nexus',
-  teamName: 'RIXA Innovators',
+  teamName: 'RIXA INNOVATORS',
+  teamSize: 6,
   tagline: 'Decentralized Intelligence & Interactive Learning Systems',
   domain: 'Smart Education & Web3 Knowledge Architecture',
   description: 'An editorial publication and technical research blog exploring AI content synthesis, smartphone-based augmented reality, and decentralized verification protocols.',

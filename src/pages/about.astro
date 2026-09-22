@@ -43,14 +43,14 @@ import { siteConfig } from '../data/siteConfig';
   <section class="team-section section-spacing bg-subtle-band">
     <div class="container">
       <SectionTitle
-        badge="Collective Brainpower"
-        title="Meet the Team"
-        description={`The multidisciplinary minds driving ${siteConfig.projectName}'s engineering, pedagogical science, and cryptographic protocols.`}
+        badge="RIXA INNOVATORS"
+        title="Meet Our 6-Member Team"
+        description={`The multidisciplinary minds driving ${siteConfig.projectName} across Visual Communication, Digital Media, and Mass Communication at Rathinam College of Arts and Science.`}
       />
 
       <div class="team-grid">
-        {teamMembers.map((member) => (
-          <TeamCard member={member} />
+        {teamMembers.map((member, index) => (
+          <TeamCard member={member} index={index + 1} />
         ))}
       </div>
     </div>

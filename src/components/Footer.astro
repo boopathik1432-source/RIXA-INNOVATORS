@@ -18,7 +18,7 @@ const currentYear = new Date().getFullYear();
           </span>
           <span class="footer-project">{siteConfig.projectName}</span>
         </div>
-        <p class="footer-team">Developed by <strong>{siteConfig.teamName}</strong></p>
+        <p class="footer-team">Developed by <strong>{siteConfig.teamName}</strong> (Team Size: {siteConfig.teamSize})</p>
         <p class="footer-desc">{siteConfig.description}</p>
         <div class="footer-contact-info">
           <a href={`mailto:${siteConfig.email}`} class="footer-email">
@@ -38,7 +38,7 @@ const currentYear = new Date().getFullYear();
             <li><a href="/">Home</a></li>
             <li><a href="/about">About Our Team</a></li>
             <li><a href="/blog">Editorial Articles</a></li>
-            <li><a href="/contact">Contact & Inquiries</a></li>
+            <li><a href="/team">Team ({siteConfig.teamSize} Members)</a></li>
           </ul>
         </div>
 

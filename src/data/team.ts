@@ -1,65 +1,94 @@
 export interface TeamMember {
   id: string;
   name: string;
-  role: string;
-  avatar: string;
-  bio: string;
-  skills: string[];
-  social: {
-    github?: string;
-    linkedin?: string;
-    twitter?: string;
-  };
+  regNo: string;
+  personalEmail: string;
+  collegeEmail: string;
+  phone: string;
+  whatsapp: string;
+  department: string;
+  school: string;
+  role?: string;
+  institution?: string;
 }
 
 export const teamMembers: TeamMember[] = [
   {
-    id: 'boopathi',
-    name: 'Boopathi Raja',
-    role: 'Lead AI & Architecture Engineer',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
-    bio: 'Pioneering multimodal LLM evaluation pipelines, personalized pedagogical models, and full-stack decentralized application architecture.',
-    skills: ['Astro', 'TypeScript', 'LLM Agents', 'Smart Contracts', 'Web3 Architecture'],
-    social: {
-      github: 'https://github.com/boopathi',
-      linkedin: 'https://linkedin.com/in/boopathi',
-      twitter: 'https://twitter.com/boopathi'
-    }
+    id: 'dhanu-sri-g',
+    name: 'Dhanu Sri G',
+    regNo: 'RCAS2025BVC107',
+    personalEmail: '05dhanusri08@gmail.com',
+    collegeEmail: 'dhanusrig.bvc25@rathinam.in',
+    phone: '9363467171',
+    whatsapp: '9363467171',
+    department: 'B.sc Visual Communication',
+    school: 'School Of Fashion Design , Media And Performing Arts',
+    institution: 'Rathinam College of Arts and Science',
+    role: 'Creative Media & Visual Communication Specialist'
   },
   {
-    id: 'elena-v',
-    name: 'Elena Vance',
-    role: 'Spatial Computing & AR Specialist',
-    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
-    bio: 'Crafting responsive smartphone-based augmented reality environments that transform abstract academic formulas into tangible 3D interactions.',
-    skills: ['WebXR', 'Three.js', 'Spatial UI', 'Shader Programming', 'UX Prototyping'],
-    social: {
-      github: 'https://github.com/elena-v',
-      linkedin: 'https://linkedin.com/in/elena-v'
-    }
+    id: 'boopathi-k',
+    name: 'Boopathi K',
+    regNo: 'RCAS2025BVC125',
+    personalEmail: 'boopathik1432@gmail.com',
+    collegeEmail: 'boopathik.bvc25@rathinam.in',
+    phone: '9080650205',
+    whatsapp: '9080650205',
+    department: 'B.sc Visual Communication',
+    school: 'School Of Fashion Design , Media And Performing Arts',
+    institution: 'Rathinam College of Arts and Science',
+    role: 'Lead Visual Designer & Web Architect'
   },
   {
-    id: 'marcus-chen',
-    name: 'Marcus Chen',
-    role: 'Protocol & Zero-Knowledge Researcher',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
-    bio: 'Designing decentralized verifiable credential schemas and on-chain learning analytics trees that preserve learner privacy while proving competence.',
-    skills: ['ZK-Rollups', 'ERC-4337', 'Cryptographic Proofs', 'Rust', 'Data Modeling'],
-    social: {
-      github: 'https://github.com/marcus-chen',
-      twitter: 'https://twitter.com/marcus-chen'
-    }
+    id: 'tharanesh',
+    name: 'Tharanesh',
+    regNo: 'RCAS2025BVC124',
+    personalEmail: 'elangovandharaneesh1977@gmail.com',
+    collegeEmail: 'tharaneshe.bvc25@rathinam.in',
+    phone: '6383802302',
+    whatsapp: '6383802302',
+    department: 'B.sc Visual Communication',
+    school: 'School Of Fashion Design , Media And Performing Arts',
+    institution: 'Rathinam College of Arts and Science',
+    role: 'Visual Communication & Digital Media Specialist'
   },
   {
-    id: 'ananya-patel',
-    name: 'Ananya Patel',
-    role: 'Pedagogical Systems & Analytics Lead',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
-    bio: 'Developing adaptive learning-gap detection algorithms and staff-facing telemetry dashboards to optimize teacher-student intervention cycles.',
-    skills: ['Learning Science', 'Statistical Modeling', 'Product Design', 'Next.js', 'Python'],
-    social: {
-      linkedin: 'https://linkedin.com/in/ananya-patel',
-      twitter: 'https://twitter.com/ananya-patel'
-    }
+    id: 'nivetha-v',
+    name: 'Nivetha V',
+    regNo: 'RCAS2025BVC149',
+    personalEmail: 'nn5846892@gmail.com',
+    collegeEmail: 'nivethav.bvc25@rathinam.in',
+    phone: '8438221781',
+    whatsapp: '8438221781',
+    department: 'B.sc Visual Communication',
+    school: 'School Of Fashion Design , Media And Performing Arts',
+    institution: 'Rathinam College of Arts and Science',
+    role: 'Visual Communication & Media Production Lead'
+  },
+  {
+    id: 'aishwaryalakshmi-v',
+    name: 'Aishwaryalakshmi V',
+    regNo: 'RCAS2025MJC006',
+    personalEmail: 'aishwaryavijayan02@gmail.com',
+    collegeEmail: 'Aishwaryalakshmiv.mjc25@rathinam.in',
+    phone: '7558181612',
+    whatsapp: '7558181612',
+    department: 'M.A Journalism and mass communication',
+    school: 'School Of Liberal Arts & Science',
+    institution: 'Rathinam College of Arts and Science',
+    role: 'Editorial & Mass Communications Strategist'
+  },
+  {
+    id: 'siva-ganesh-r',
+    name: 'Siva Ganesh R',
+    regNo: 'RCAS2025MJC009',
+    personalEmail: 'vbsiva501@gmail.com',
+    collegeEmail: 'sivaganeshr.mjc25@rathinam.in',
+    phone: '9342373087',
+    whatsapp: '9342373087',
+    department: 'M.A Journalism and mass communication',
+    school: 'School Of Liberal Arts & Science',
+    institution: 'Rathinam College of Arts and Science',
+    role: 'Journalism, Media Research & Communications Lead'
   }
 ];

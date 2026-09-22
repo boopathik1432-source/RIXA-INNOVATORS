@@ -3,66 +3,125 @@ import type { TeamMember } from '../data/team';
 
 interface Props {
   member: TeamMember;
+  index?: number;
 }
 
-const { member } = Astro.props;
+const { member, index = 1 } = Astro.props;
+
+// Generate initials from name (e.g. "Dhanu Sri G" -> "DG")
+const initials = member.name
+  .split(' ')
+  .filter(Boolean)
+  .map(n => n[0])
+  .slice(0, 2)
+  .join('')
+  .toUpperCase();
+
+// Format phone numbers for tel: and wa.me
+const cleanPhone = member.phone.replace(/\D/g, '');
+const cleanWa = member.whatsapp.replace(/\D/g, '');
+const waLink = `https://wa.me/91${cleanWa}?text=Hello%20${encodeURIComponent(member.name)}%2C%20connecting%20from%20RIXA%20INNOVATORS%20portal.`;
+const telLink = `tel:+91${cleanPhone}`;
 ---
 
 <div class="team-card motion-reveal">
+  <!-- Card Header -->
   <div class="team-card-header">
-    <div class="avatar-ring">
-      <img
-        src={member.avatar}
-        alt={member.name}
-        class="team-avatar"
-        loading="lazy"
-      />
+    <div class="avatar-container">
+      <div class="avatar-ring">
+        <span class="avatar-initials">{initials}</span>
+      </div>
+      <span class="member-index-badge">#{String(index).padStart(2, '0')}</span>
     </div>
+
     <div class="member-identity">
-      <h3 class="member-name">{member.name}</h3>
+      <div class="name-row">
+        <h3 class="member-name">{member.name}</h3>
+      </div>
+      <div class="reg-badge-wrap">
+        <span class="reg-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect width="18" height="18" x="3" y="3" rx="2"/>
+            <path d="M7 7h10M7 12h10M7 17h6"/>
+          </svg>
+          <span>Reg: <strong>{member.regNo}</strong></span>
+        </span>
+      </div>
       <p class="member-role">{member.role}</p>
     </div>
   </div>
 
-  <div class="team-card-body">
-    <p class="member-bio">{member.bio}</p>
+  <!-- Academic Info -->
+  <div class="academic-section">
+    <div class="info-row">
+      <span class="info-label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+        Department
+      </span>
+      <span class="info-value dept-value">{member.department}</span>
+    </div>
 
-    <div class="skills-block">
-      <span class="skills-label">Core Capabilities:</span>
-      <div class="skills-list">
-        {member.skills.map(skill => (
-          <span class="skill-tag">{skill}</span>
-        ))}
-      </div>
+    <div class="info-row">
+      <span class="info-label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        School
+      </span>
+      <span class="info-value school-value">{member.school}</span>
     </div>
   </div>
 
-  <div class="team-card-footer">
-    <div class="social-links">
-      {member.social.github && (
-        <a href={member.social.github} target="_blank" rel="noopener noreferrer" class="social-icon" aria-label={`${member.name}'s GitHub`}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-          </svg>
-        </a>
-      )}
-      {member.social.linkedin && (
-        <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer" class="social-icon" aria-label={`${member.name}'s LinkedIn`}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-            <rect width="4" height="12" x="2" y="9"></rect>
-            <circle cx="4" cy="4" r="2"></circle>
-          </svg>
-        </a>
-      )}
-      {member.social.twitter && (
-        <a href={member.social.twitter} target="_blank" rel="noopener noreferrer" class="social-icon" aria-label={`${member.name}'s Twitter`}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
-          </svg>
-        </a>
-      )}
-    </div>
+  <!-- Contact Details Block -->
+  <div class="contacts-grid">
+    <!-- College Email -->
+    <a href={`mailto:${member.collegeEmail}`} class="contact-card-item college-email" title="College Institutional E-mail">
+      <div class="contact-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+      <div class="contact-texts">
+        <span class="contact-tag">College Institutional E-mail</span>
+        <span class="contact-text email-truncate">{member.collegeEmail}</span>
+      </div>
+    </a>
+
+    <!-- Personal Email -->
+    <a href={`mailto:${member.personalEmail}`} class="contact-card-item" title="Personal E-mail">
+      <div class="contact-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect width="20" height="16" x="2" y="4" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+      </div>
+      <div class="contact-texts">
+        <span class="contact-tag">Personal E-mail</span>
+        <span class="contact-text email-truncate">{member.personalEmail}</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Direct Interactive Quick Actions (Call & WhatsApp) -->
+  <div class="card-action-bar">
+    <a href={telLink} class="action-btn action-phone" title={`Call ${member.name}`}>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      <span>+91 {member.phone}</span>
+    </a>
+
+    <a href={waLink} target="_blank" rel="noopener noreferrer" class="action-btn action-whatsapp" title={`WhatsApp ${member.name}`}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+      </svg>
+      <span>WhatsApp</span>
+    </a>
   </div>
 </div>
 
@@ -70,128 +129,290 @@ const { member } = Astro.props;
   .team-card {
     background: #ffffff;
     border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     padding: 2.25rem;
     display: flex;
     flex-direction: column;
     box-shadow: var(--shadow-sm);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .team-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--grad-primary);
+    opacity: 0.85;
   }
 
   .team-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-    border-color: rgba(79, 70, 229, 0.25);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    border-color: rgba(79, 70, 229, 0.3);
   }
 
   .team-card-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1.25rem;
     margin-bottom: 1.5rem;
   }
 
-  .avatar-ring {
+  .avatar-container {
     position: relative;
-    padding: 3px;
-    border-radius: 50%;
-    background: var(--grad-primary);
+    flex-shrink: 0;
   }
 
-  .team-avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    object-fit: cover;
-    background: #ffffff;
+  .avatar-ring {
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
+  }
+
+  .avatar-initials {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.35rem;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+  }
+
+  .member-index-badge {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    background: #0f172a;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: var(--radius-full);
     border: 2px solid #ffffff;
   }
 
+  .member-identity {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex-grow: 1;
+  }
+
   .member-name {
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
     color: var(--text-primary);
     line-height: 1.2;
-    margin-bottom: 0.25rem;
+    letter-spacing: -0.01em;
+  }
+
+  .reg-badge-wrap {
+    display: flex;
+    margin-top: 0.15rem;
+  }
+
+  .reg-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent-primary);
+    background: var(--accent-primary-light);
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(79, 70, 229, 0.18);
+    font-weight: 500;
+  }
+
+  .reg-badge strong {
+    font-weight: 700;
+    color: var(--accent-primary-hover);
   }
 
   .member-role {
     font-size: 0.85rem;
     font-weight: 600;
+    color: var(--text-secondary);
+    margin-top: 0.2rem;
+  }
+
+  /* Academic Section */
+  .academic-section {
+    background: #f8fafc;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .info-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .info-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+
+  .info-value {
+    font-size: 0.88rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .dept-value {
+    color: #1e293b;
+  }
+
+  .school-value {
+    color: #475569;
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+
+  /* Contacts Grid */
+  .contacts-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+  }
+
+  .contact-card-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-md);
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .contact-card-item:hover {
+    border-color: var(--accent-primary);
+    background: #f8fafc;
+    transform: translateX(3px);
+  }
+
+  .college-email {
+    background: rgba(79, 70, 229, 0.03);
+    border-color: rgba(79, 70, 229, 0.15);
+  }
+
+  .contact-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    color: var(--accent-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .college-email .contact-icon {
+    background: var(--accent-primary-light);
     color: var(--accent-primary);
   }
 
-  .team-card-body {
-    flex-grow: 1;
+  .contact-texts {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
+    overflow: hidden;
   }
 
-  .member-bio {
-    font-size: 0.92rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
-  .skills-block {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .skills-label {
-    font-size: 0.75rem;
-    font-weight: 600;
+  .contact-tag {
+    font-size: 0.68rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-muted);
   }
 
-  .skills-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
+  .contact-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
   }
 
-  .skill-tag {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-subtle);
-    padding: 0.25rem 0.65rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--text-secondary);
+  .email-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .team-card-footer {
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--border-light);
+  /* Action Bar */
+  .card-action-bar {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 0.65rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-subtle);
   }
 
-  .social-links {
-    display: flex;
-    gap: 0.75rem;
-  }
-
-  .social-icon {
-    display: flex;
+  .action-btn {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-secondary);
-    color: var(--text-muted);
-    border: 1px solid var(--border-subtle);
+    gap: 0.5rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-md);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
     transition: all 0.2s ease;
   }
 
-  .social-icon:hover {
-    background: var(--accent-primary-light);
-    color: var(--accent-primary);
-    border-color: rgba(79, 70, 229, 0.2);
-    transform: translateY(-2px);
+  .action-phone {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .action-phone:hover {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+  }
+
+  .action-whatsapp {
+    background: #25d366;
+    color: #ffffff;
+    border: 1px solid #20ba5a;
+    box-shadow: 0 2px 6px rgba(37, 211, 102, 0.25);
+  }
+
+  .action-whatsapp:hover {
+    background: #20ba5a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
   }
 </style>
