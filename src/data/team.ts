@@ -8,7 +8,6 @@ export interface TeamMember {
   whatsapp: string;
   department: string;
   school: string;
-  role?: string;
   institution?: string;
 }
 
@@ -23,8 +22,7 @@ export const teamMembers: TeamMember[] = [
     whatsapp: '9363467171',
     department: 'B.sc Visual Communication',
     school: 'School Of Fashion Design , Media And Performing Arts',
-    institution: 'Rathinam College of Arts and Science',
-    role: 'Creative Media & Visual Communication Specialist'
+    institution: 'Rathinam College of Arts and Science'
   },
   {
     id: 'boopathi-k',
@@ -36,8 +34,7 @@ export const teamMembers: TeamMember[] = [
     whatsapp: '9080650205',
     department: 'B.sc Visual Communication',
     school: 'School Of Fashion Design , Media And Performing Arts',
-    institution: 'Rathinam College of Arts and Science',
-    role: 'Lead Visual Designer & Web Architect'
+    institution: 'Rathinam College of Arts and Science'
   },
   {
     id: 'tharanesh',
@@ -49,8 +46,7 @@ export const teamMembers: TeamMember[] = [
     whatsapp: '6383802302',
     department: 'B.sc Visual Communication',
     school: 'School Of Fashion Design , Media And Performing Arts',
-    institution: 'Rathinam College of Arts and Science',
-    role: 'Visual Communication & Digital Media Specialist'
+    institution: 'Rathinam College of Arts and Science'
   },
   {
     id: 'nivetha-v',
@@ -62,8 +58,7 @@ export const teamMembers: TeamMember[] = [
     whatsapp: '8438221781',
     department: 'B.sc Visual Communication',
     school: 'School Of Fashion Design , Media And Performing Arts',
-    institution: 'Rathinam College of Arts and Science',
-    role: 'Visual Communication & Media Production Lead'
+    institution: 'Rathinam College of Arts and Science'
   },
   {
     id: 'aishwaryalakshmi-v',
@@ -75,8 +70,7 @@ export const teamMembers: TeamMember[] = [
     whatsapp: '7558181612',
     department: 'M.A Journalism and mass communication',
     school: 'School Of Liberal Arts & Science',
-    institution: 'Rathinam College of Arts and Science',
-    role: 'Editorial & Mass Communications Strategist'
+    institution: 'Rathinam College of Arts and Science'
   },
   {
     id: 'siva-ganesh-r',
@@ -88,7 +82,6 @@ export const teamMembers: TeamMember[] = [
     whatsapp: '9342373087',
     department: 'M.A Journalism and mass communication',
     school: 'School Of Liberal Arts & Science',
-    institution: 'Rathinam College of Arts and Science',
-    role: 'Journalism, Media Research & Communications Lead'
+    institution: 'Rathinam College of Arts and Science'
   }
 ];
