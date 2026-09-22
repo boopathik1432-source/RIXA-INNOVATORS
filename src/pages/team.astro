@@ -108,7 +108,7 @@ import { siteConfig } from '../data/siteConfig';
 
   .team-hero-header {
     text-align: center;
-    max-width: 860px;
+    max-width: 1020px;
     margin: 0 auto 2.5rem;
     display: flex;
     flex-direction: column;
@@ -163,22 +163,25 @@ import { siteConfig } from '../data/siteConfig';
   .stats-ribbon {
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 2rem;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    width: 100%;
     background: #ffffff;
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
-    padding: 1.25rem 2.5rem;
+    padding: 1.25rem 2rem;
     margin-top: 1rem;
     box-shadow: var(--shadow-sm);
+    gap: 1rem;
   }
 
   .stat-pill {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.2rem;
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 0.25rem;
   }
 
   .stat-num {
@@ -187,20 +190,24 @@ import { siteConfig } from '../data/siteConfig';
     font-weight: 800;
     color: var(--accent-primary);
     line-height: 1;
+    white-space: nowrap;
   }
 
   .stat-label {
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: 0.72rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     color: var(--text-muted);
+    white-space: nowrap;
+    text-align: center;
   }
 
   .stat-divider {
     width: 1px;
-    height: 32px;
+    height: 36px;
     background: var(--border-subtle);
+    flex-shrink: 0;
   }
 
   /* Department summary chips */
@@ -310,14 +317,18 @@ import { siteConfig } from '../data/siteConfig';
       align-items: flex-start;
       padding: 2.25rem 1.75rem;
     }
+  }
+
+  @media (max-width: 680px) {
+    .stats-ribbon {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      padding: 1.25rem;
+    }
 
     .stat-divider {
       display: none;
-    }
-
-    .stats-ribbon {
-      gap: 1.25rem;
-      padding: 1.25rem;
     }
   }
 </style>
